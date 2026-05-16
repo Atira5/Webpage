@@ -1,0 +1,1794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Evolve Robotics Education</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg:     #0d0f0f;
+    --bg2:    #111414;
+    --card:   #181d1d;
+    --card2:  #1e2424;
+    --accent:  #e07b2a;
+    --accent2: #c45e10;
+    --accent3: #f5a623;
+    --gold:    #d4a847;
+    --steel:   #8fa3a3;
+    --text:    #e8eded;
+    --muted:   #637070;
+    --border:  rgba(224,123,42,0.18);
+    --glow:    0 0 30px rgba(224,123,42,0.25);
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── Animated Background ── */
+  body::before {
+    content:'';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 15% 10%, rgba(224,123,42,0.09) 0%, transparent 60%),
+      radial-gradient(ellipse 55% 45% at 85% 80%, rgba(196,94,16,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 35% at 50% 50%, rgba(143,163,163,0.03) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Grid overlay — fine steel mesh */
+  body::after {
+    content:'';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(143,163,163,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(143,163,163,0.04) 1px, transparent 1px);
+    background-size: 56px 56px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Keyframes ── */
+  @keyframes fadeUp   { from { opacity:0; transform:translateY(40px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeIn   { from { opacity:0; } to { opacity:1; } }
+  @keyframes floatY   { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-12px); } }
+  @keyframes pulse    { 0%,100% { box-shadow: 0 0 0 0 rgba(224,123,42,0.40); } 50% { box-shadow: 0 0 0 12px rgba(224,123,42,0); } }
+  @keyframes rotate   { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
+  @keyframes shimmer  { 0% { background-position:-200% 0; } 100% { background-position:200% 0; } }
+  @keyframes slideIn  { from { transform:translateX(-60px); opacity:0; } to { transform:translateX(0); opacity:1; } }
+  @keyframes hexPop   { 0% { transform:scale(0.6) rotate(-10deg); opacity:0; } 100% { transform:scale(1) rotate(0deg); opacity:1; } }
+  @keyframes borderRun {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+  @keyframes scanline {
+    0%   { transform: translateY(-100%); }
+    100% { transform: translateY(100vh); }
+  }
+  @keyframes orbit {
+    from { transform: rotate(0deg) translateX(120px) rotate(0deg); }
+    to   { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
+  }
+
+  /* Scanline effect */
+  .scanline {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(224,123,42,0.35), transparent);
+    animation: scanline 6s linear infinite;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    padding: 0 5%;
+    backdrop-filter: blur(20px);
+    background: rgba(5,13,26,0.85);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+    transition: all 0.3s;
+  }
+
+  .logo {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.5rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 2px;
+    animation: slideIn 0.8s ease forwards;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 6px;
+    list-style: none;
+    animation: fadeIn 1s ease 0.3s both;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid transparent;
+    transition: all 0.3s;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  .nav-links a:hover, .nav-links a.active {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(224,123,42,0.08);
+    box-shadow: 0 0 15px rgba(224,123,42,0.18);
+  }
+
+  .nav-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    animation: fadeIn 1s ease 0.5s both;
+  }
+
+  .btn {
+    padding: 9px 22px;
+    border-radius: 25px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.3px;
+  }
+
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+  }
+  .btn-outline:hover { background: rgba(224,123,42,0.1); box-shadow: var(--glow); }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::after {
+    content:'';
+    position:absolute;
+    inset:0;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    opacity:0;
+    transition: opacity 0.3s;
+  }
+  .btn-primary:hover::after { opacity:1; }
+  .btn-primary:hover { transform:translateY(-2px); box-shadow: 0 8px 25px rgba(224,123,42,0.4); }
+  .btn-primary span { position:relative; z-index:1; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 5% 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-orb {
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(224,123,42,0.07) 0%, transparent 70%);
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    animation: floatY 6s ease-in-out infinite;
+  }
+
+  .hero-ring {
+    position: absolute;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    border: 1px solid rgba(224,123,42,0.15);
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .hero-ring::before {
+    content:'';
+    position:absolute;
+    width:10px; height:10px;
+    background: var(--accent);
+    border-radius: 50%;
+    top: 0; left: 50%; margin-left:-5px;
+    box-shadow: 0 0 15px var(--accent);
+    animation: orbit 4s linear infinite;
+    transform-origin: 0 200px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(224,123,42,0.09);
+    border: 1px solid rgba(224,123,42,0.28);
+    border-radius: 25px;
+    padding: 7px 18px;
+    font-size: 0.8rem;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 24px;
+    animation: fadeUp 0.8s ease both;
+    letter-spacing: 0.5px;
+  }
+
+  .hero-badge span { width:7px; height:7px; background:var(--accent); border-radius:50%; animation: pulse 1.5s infinite; }
+
+  .hero h1 {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(2.5rem, 6vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 20px;
+    animation: fadeUp 0.9s ease 0.15s both;
+  }
+
+  .hero h1 .line1 { display:block; color: var(--text); }
+  .hero h1 .line2 {
+    display: block;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 50%, var(--accent3) 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeUp 0.9s ease 0.15s both, shimmer 3s linear infinite 1s;
+  }
+
+  .hero p {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 580px;
+    margin: 0 auto 36px;
+    line-height: 1.7;
+    font-weight: 300;
+    animation: fadeUp 0.9s ease 0.3s both;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeUp 0.9s ease 0.45s both;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 50px;
+    justify-content: center;
+    margin-top: 70px;
+    animation: fadeUp 0.9s ease 0.6s both;
+  }
+
+  .stat { text-align:center; }
+  .stat-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 2.2rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 4px; letter-spacing: 1px; text-transform: uppercase; }
+
+  /* ── SECTION COMMONS ── */
+  section { position: relative; z-index: 1; }
+
+  .section-wrap { max-width: 1200px; margin: 0 auto; padding: 100px 5%; }
+
+  .section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .section-tag::before { content:''; width:24px; height:1px; background:var(--accent); }
+
+  .section-title {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 700;
+    margin-bottom: 14px;
+    line-height: 1.2;
+  }
+
+  .section-sub {
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 560px;
+    font-weight: 300;
+  }
+
+  /* ── COURSES ── */
+  #courses { background: var(--bg2); }
+
+  .courses-header { text-align: center; margin-bottom: 60px; }
+  .courses-header .section-sub { margin: 0 auto; }
+
+  .hex-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    margin: 0 auto 50px;
+    max-width: 700px;
+  }
+
+  .hex-card {
+    width: 160px; height: 185px;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background: linear-gradient(145deg, var(--card2), var(--card));
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.3s;
+    animation: hexPop 0.6s ease both;
+  }
+
+  .hex-card:nth-child(1) { animation-delay: 0.1s; }
+  .hex-card:nth-child(2) { animation-delay: 0.2s; }
+  .hex-card:nth-child(3) { animation-delay: 0.3s; }
+  .hex-card:nth-child(4) { animation-delay: 0.4s; margin-top: -30px; }
+  .hex-card:nth-child(5) { animation-delay: 0.5s; margin-top: -30px; }
+
+  .hex-card::before {
+    content:'';
+    position:absolute;
+    inset:3px;
+    clip-path: inherit;
+    background: linear-gradient(145deg, rgba(224,123,42,0.06), rgba(143,163,163,0.05));
+    z-index:0;
+  }
+
+  .hex-card:hover { transform: scale(1.08) translateY(-5px); }
+  .hex-card:hover .hex-icon { filter: drop-shadow(0 0 12px var(--accent)); }
+
+  .hex-icon { font-size: 2rem; z-index:1; animation: floatY 3s ease-in-out infinite; }
+  .hex-card:nth-child(2) .hex-icon { animation-delay: 0.5s; }
+  .hex-card:nth-child(3) .hex-icon { animation-delay: 1s; }
+  .hex-card:nth-child(4) .hex-icon { animation-delay: 1.5s; }
+  .hex-card:nth-child(5) .hex-icon { animation-delay: 2s; }
+
+  .hex-name {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--accent);
+    z-index: 1;
+    margin-top: 8px;
+    letter-spacing: 1px;
+    text-align: center;
+    padding: 0 10px;
+  }
+
+  .hex-sub { font-size: 0.67rem; color: var(--muted); z-index:1; margin-top:3px; }
+
+  .course-ctas { display:flex; gap:14px; justify-content:center; }
+
+  /* ── PROJECTS ── */
+  .projects-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .projects-header-left p {
+    color: var(--muted);
+    font-size: 0.88rem;
+    margin-top: 6px;
+    max-width: 540px;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .proj-nav { display:flex; gap:10px; align-items:center; }
+
+  .proj-arrow {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--card2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s;
+    flex-shrink: 0;
+  }
+  .proj-arrow:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: var(--glow);
+    transform: scale(1.08);
+  }
+  .proj-arrow:disabled { opacity: 0.3; cursor: default; transform:none; background:var(--card); }
+
+  .projects-slider-wrap {
+    overflow: hidden;
+    border-radius: 14px;
+    position: relative;
+  }
+
+  .projects-slider {
+    display: flex;
+    gap: 18px;
+    transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
+    will-change: transform;
+  }
+
+  .project-card {
+    flex: 0 0 calc(33.333% - 12px);
+    min-width: 260px;
+    background: var(--card);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.35s, box-shadow 0.35s, transform 0.35s;
+    position: relative;
+  }
+
+  .project-card:hover {
+    border-color: rgba(224,123,42,0.50);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.35), var(--glow);
+    transform: translateY(-5px);
+  }
+
+  .project-thumb {
+    height: 160px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem;
+    background: linear-gradient(145deg, var(--card), var(--card2));
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-thumb::after {
+    content:'';
+    position:absolute; inset:0;
+    background: linear-gradient(135deg, rgba(224,123,42,0.07), rgba(143,163,163,0.05));
+    opacity:0; transition:opacity 0.3s;
+  }
+  .project-card:hover .project-thumb::after { opacity:1; }
+
+  .project-body {
+    padding: 16px 18px 18px;
+  }
+
+  .project-category {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 5px;
+  }
+
+  .project-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 7px;
+    line-height: 1.3;
+  }
+
+  .project-desc {
+    font-size: 0.76rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .project-tags {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .project-tag {
+    background: rgba(224,123,42,0.09);
+    border: 1px solid rgba(224,123,42,0.2);
+    border-radius: 10px;
+    padding: 2px 9px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--steel);
+    letter-spacing: 0.3px;
+  }
+
+  .dots { display:flex; gap:8px; justify-content:center; margin-top:22px; }
+  .dot { width:8px; height:8px; border-radius:50%; background:var(--border); transition:all 0.3s; cursor:pointer; }
+  .dot.active { background:var(--accent); box-shadow:0 0 10px var(--accent); width:24px; border-radius:4px; }
+
+  /* ── WHY CHOOSE US ── */
+  #why { background: var(--bg2); }
+
+  .why-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
+
+  .why-cards { display:flex; flex-direction:column; gap:16px; }
+
+  .why-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px 24px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .why-card::after {
+    content:'';
+    position:absolute;
+    left:0; top:0; bottom:0;
+    width:3px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2));
+    opacity:0;
+    transition:opacity 0.3s;
+  }
+
+  .why-card:hover { transform:translateX(6px); border-color:rgba(224,123,42,0.28); background:var(--card2); }
+  .why-card:hover::after { opacity:1; }
+
+  .why-icon { font-size:1.8rem; flex-shrink:0; }
+  .why-title { font-weight:700; font-size:0.95rem; margin-bottom:5px; }
+  .why-desc { font-size:0.82rem; color:var(--muted); line-height:1.6; }
+
+  .why-visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 380px;
+  }
+
+  .why-circle {
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(224,123,42,0.10), rgba(143,163,163,0.07));
+    border: 2px solid rgba(224,123,42,0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .why-circle-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 3.5rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .why-circle-label { font-size:0.8rem; color:var(--muted); letter-spacing:1px; text-transform:uppercase; }
+
+  .why-orbit-item {
+    position: absolute;
+    width: 70px; height: 70px;
+    border-radius: 50%;
+    background: var(--card2);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+
+  .why-orbit-item:nth-child(2) { top: 20px; right: 40px; animation: floatY 3s ease-in-out infinite; }
+  .why-orbit-item:nth-child(3) { bottom: 20px; right: 30px; animation: floatY 3s ease-in-out infinite 1s; }
+  .why-orbit-item:nth-child(4) { bottom: 40px; left: 40px; animation: floatY 3s ease-in-out infinite 2s; }
+  .why-orbit-item:nth-child(5) { top: 20px; left: 50px; animation: floatY 3s ease-in-out infinite 0.5s; }
+
+  /* ── EVENT VIDEOS ── */
+  #events { background: var(--bg2); }
+
+  .video-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .video-layout {
+    display: grid;
+    grid-template-columns: 1.55fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* ── Featured card ── */
+  .video-featured {
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--card);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: border-color 0.35s, box-shadow 0.35s;
+    position: relative;
+  }
+
+  .video-featured:hover {
+    border-color: rgba(224,123,42,0.45);
+    box-shadow: 0 24px 50px rgba(0,0,0,0.4), var(--glow);
+  }
+
+  .vf-thumb {
+    aspect-ratio: 16/9;
+    background: linear-gradient(145deg, #1a1f1f, var(--card2));
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    overflow: hidden;
+  }
+
+  .vf-thumb::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(13,15,15,0.85) 0%, transparent 55%);
+    z-index: 1;
+  }
+
+  .vf-play {
+    position: absolute;
+    z-index: 2;
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    color: #fff;
+    box-shadow: 0 0 30px rgba(224,123,42,0.5);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .video-featured:hover .vf-play { transform: scale(1.1); box-shadow: 0 0 45px rgba(224,123,42,0.7); }
+
+  .vf-badge {
+    position: absolute;
+    top: 14px; left: 14px;
+    z-index: 3;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+
+  .vf-body {
+    padding: 20px 22px 22px;
+    border-top: 1px solid var(--border);
+  }
+
+  .vf-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .vf-cat {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .vf-dot-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--muted); }
+
+  .vf-dur {
+    font-size: 0.68rem;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .vf-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 8px;
+  }
+
+  .vf-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  /* ── Sidebar list ── */
+  .video-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--card);
+  }
+
+  .video-list-header {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: var(--card2);
+  }
+
+  .video-row {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.25s, border-color 0.25s;
+    position: relative;
+  }
+
+  .video-row:last-child { border-bottom: none; }
+
+  .video-row:hover { background: var(--card2); }
+
+  .video-row::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .video-row:hover::before { opacity: 1; }
+
+  .video-row.active-row { background: rgba(224,123,42,0.06); }
+  .video-row.active-row::before { opacity: 1; }
+
+  .vr-thumb {
+    width: 80px;
+    height: 52px;
+    border-radius: 8px;
+    background: linear-gradient(145deg, var(--card2), #222828);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .vr-thumb::after {
+    content: '▶';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    background: rgba(224,123,42,0.75);
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .video-row:hover .vr-thumb::after { opacity: 1; }
+
+  .vr-info { flex: 1; min-width: 0; }
+
+  .vr-cat {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 3px;
+  }
+
+  .vr-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.35;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .vr-dur {
+    font-size: 0.68rem;
+    color: var(--muted);
+  }
+
+  .vr-arrow {
+    font-size: 0.75rem;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: color 0.2s, transform 0.2s;
+  }
+  .video-row:hover .vr-arrow { color: var(--accent); transform: translateX(3px); }
+
+  /* ── JOURNEY ── */
+  #journey { background: var(--bg2); }
+
+  .timeline {
+    position: relative;
+    padding-left: 40px;
+    margin-top: 50px;
+  }
+
+  .timeline::before {
+    content:'';
+    position:absolute;
+    left: 16px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 40px;
+    animation: slideIn 0.6s ease both;
+  }
+
+  .timeline-item:nth-child(1) { animation-delay:0.1s; }
+  .timeline-item:nth-child(2) { animation-delay:0.2s; }
+  .timeline-item:nth-child(3) { animation-delay:0.3s; }
+  .timeline-item:nth-child(4) { animation-delay:0.4s; }
+  .timeline-item:nth-child(5) { animation-delay:0.5s; }
+
+  .timeline-dot {
+    position: absolute;
+    left: -32px; top: 5px;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 15px var(--accent);
+    border: 2px solid var(--bg);
+  }
+
+  .timeline-year {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+
+  .timeline-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    transition: all 0.3s;
+  }
+
+  .timeline-card:hover { border-color: rgba(224,123,42,0.28); background: var(--card2); transform:translateX(6px); }
+
+  .timeline-card h4 { font-weight:700; font-size:0.95rem; margin-bottom:6px; }
+  .timeline-card p { font-size:0.82rem; color:var(--muted); line-height:1.6; }
+
+  .journey-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start; }
+
+  .journey-images { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+
+  .journey-img {
+    aspect-ratio:1;
+    background: var(--card);
+    border-radius:12px;
+    border:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:2.5rem;
+    transition:all 0.3s;
+  }
+
+  .journey-img:hover { border-color:rgba(224,123,42,0.40); transform:scale(1.04); }
+  .journey-img.tall { grid-row: span 2; aspect-ratio: auto; }
+
+  /* ── TESTIMONIALS ── */
+  .testi-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px,1fr)); gap:20px; margin-top:50px; }
+
+  .testi-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    position: relative;
+    transition: all 0.4s;
+    overflow: hidden;
+  }
+
+  .testi-card::before {
+    content: '"';
+    position:absolute;
+    top: -10px; right: 20px;
+    font-size:8rem;
+    color:rgba(224,123,42,0.07);
+    font-family:serif;
+    line-height:1;
+  }
+
+  .testi-card:hover { border-color:rgba(224,123,42,0.28); transform:translateY(-6px); box-shadow:0 20px 40px rgba(0,0,0,0.3); }
+
+  .stars { color:var(--gold); font-size:0.85rem; margin-bottom:14px; letter-spacing:2px; }
+  .testi-text { font-size:0.88rem; line-height:1.7; color:var(--muted); margin-bottom:18px; font-style:italic; }
+
+  .testi-author { display:flex; align-items:center; gap:12px; }
+  .testi-avatar {
+    width:42px; height:42px; border-radius:50%;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:0.9rem; color:#fff; flex-shrink:0;
+  }
+
+  .testi-name { font-weight:700; font-size:0.88rem; }
+  .testi-role { font-size:0.75rem; color:var(--muted); }
+
+  /* ── TRUSTED PARTNERS ── */
+  #partners { background: var(--bg2); }
+
+  .partners-track-wrap { overflow:hidden; margin-top:50px; }
+
+  @keyframes scroll { 0% { transform:translateX(0); } 100% { transform:translateX(-50%); } }
+
+  .partners-track {
+    display:flex;
+    gap:20px;
+    animation: scroll 20s linear infinite;
+    width: max-content;
+  }
+
+  .partner-chip {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 28px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    white-space:nowrap;
+    transition:border-color 0.3s;
+  }
+
+  .partner-chip:hover { border-color:rgba(224,123,42,0.40); }
+  .partner-chip span { font-size:1.4rem; }
+  .partner-chip strong { font-size:0.88rem; font-weight:600; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 70px 5% 30px;
+    position:relative;
+    z-index:1;
+  }
+
+  .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:50px; margin-bottom:50px; }
+
+  .footer-brand .logo { display:block; margin-bottom:14px; font-family:'Orbitron',monospace; font-size:1.3rem; font-weight:900; background:linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .footer-brand p { font-size:0.85rem; color:var(--muted); line-height:1.7; max-width:280px; font-weight:300; }
+
+  .footer-col h5 { font-size:0.78rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--accent); margin-bottom:18px; }
+  .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:10px; }
+  .footer-col ul a { text-decoration:none; font-size:0.85rem; color:var(--muted); transition:color 0.2s; }
+  .footer-col ul a:hover { color:var(--accent); }
+
+  .footer-bottom { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; padding-top:30px; border-top:1px solid var(--border); }
+  .footer-bottom p { font-size:0.8rem; color:var(--muted); }
+
+  .social-links { display:flex; gap:10px; }
+  .social-btn {
+    width:36px; height:36px;
+    border-radius:50%;
+    background:var(--card);
+    border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.9rem;
+    cursor:pointer;
+    transition:all 0.3s;
+    text-decoration:none;
+  }
+  .social-btn:hover { border-color:var(--accent); background:rgba(224,123,42,0.09); transform:translateY(-2px); }
+
+  /* ── CTA BANNER ── */
+  .cta-banner {
+    margin: 0 5% 60px;
+    background: linear-gradient(120deg, rgba(224,123,42,0.08) 0%, rgba(143,163,163,0.04) 100%);
+    border: 1px solid rgba(224,123,42,0.22);
+    border-radius: 16px;
+    padding: 26px 36px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+
+  .cta-banner::before {
+    content:'';
+    position:absolute;
+    inset:0;
+    background: linear-gradient(90deg, transparent, rgba(224,123,42,0.04), transparent);
+    background-size:200% 100%;
+    animation:shimmer 3s linear infinite;
+  }
+
+  .cta-banner-left { flex:1; min-width:200px; }
+  .cta-banner h2 {
+    font-family:'Orbitron',monospace;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 3px;
+    letter-spacing: 0.3px;
+  }
+  .cta-banner p { color:var(--muted); font-size:0.78rem; margin:0; line-height:1.4; }
+
+  .cta-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+    flex: 1;
+    min-width: 240px;
+    justify-content: center;
+  }
+
+  .cta-tag {
+    background: rgba(224,123,42,0.10);
+    border: 1px solid rgba(224,123,42,0.22);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--accent3);
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    transition: all 0.3s;
+  }
+  .cta-tag:hover { background: rgba(224,123,42,0.18); transform:translateY(-1px); }
+
+  .cta-input-group { display:flex; gap:8px; align-items:center; flex-shrink:0; }
+  .cta-input {
+    flex:1;
+    background:rgba(255,255,255,0.06);
+    border:1px solid var(--border);
+    border-radius:25px;
+    padding:12px 20px;
+    color:var(--text);
+    font-size:0.88rem;
+    font-family:'DM Sans',sans-serif;
+    outline:none;
+    transition:border-color 0.3s;
+  }
+  .cta-input:focus { border-color:var(--accent); }
+  .cta-input::placeholder { color:var(--muted); }
+
+  /* ── Reveal animations on scroll ── */
+  .reveal { opacity:0; transform:translateY(30px); transition:all 0.7s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  /* ── Responsive ── */
+  @media (max-width:900px) {
+    .why-grid, .journey-grid { grid-template-columns:1fr; }
+    .video-grid { grid-template-columns:1fr 1fr; }
+    .footer-grid { grid-template-columns:1fr 1fr; }
+    .hero-stats { gap:30px; }
+    .nav-links { display:none; }
+    .cta-banner { padding:18px 20px; flex-direction:column; align-items:flex-start; gap:14px; }
+  }
+  @media (max-width:600px) {
+    .video-grid, .testi-grid { grid-template-columns:1fr; }
+    .footer-grid { grid-template-columns:1fr; }
+    .cta-input-group { flex-direction:column; }
+    .hero h1 { font-size:2.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="scanline"></div>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="logo">Evolve Robotics</div>
+  <ul class="nav-links">
+    <li><a href="#courses" class="active">Courses</a></li>
+    <li><a href="#courses">Explore</a></li>
+    <li><a href="#why">10+ Places</a></li>
+    <li><a href="#why">Schools</a></li>
+    <li><a href="#partners">Awards</a></li>
+    <li><a href="#partners">Accredited</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="btn btn-outline">Login</button>
+    <button class="btn btn-primary"><span>Register</span></button>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" id="home">
+  <div class="hero-orb"></div>
+  <div class="hero-ring"></div>
+  <div>
+    <div class="hero-badge"><span></span> India's #1 Tech Education Platform</div>
+    <h1>
+      <span class="line1">Shape the</span>
+      <span class="line2">Future of Tech</span>
+    </h1>
+    <p>Hands-on training in Robotics, Drones, AI/ML, Embedded Systems & Data Science. Learn from industry experts. Build real projects. Launch your career.</p>
+    <div class="hero-ctas">
+      <button class="btn btn-primary" style="padding:14px 32px;font-size:0.95rem;"><span>Explore Courses</span></button>
+      <button class="btn btn-outline" style="padding:14px 32px;font-size:0.95rem;">Watch Demo ▶</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">10K+</div><div class="stat-label">Students</div></div>
+      <div class="stat"><div class="stat-num">50+</div><div class="stat-label">Projects</div></div>
+      <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Cities</div></div>
+      <div class="stat"><div class="stat-num">98%</div><div class="stat-label">Placement</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── COURSES ── -->
+<section id="courses">
+  <div class="section-wrap">
+    <div class="courses-header reveal">
+      <div class="section-tag">Curriculum</div>
+      <h2 class="section-title">Our Courses</h2>
+      <p class="section-sub">Cutting-edge programs designed with industry experts to make you job-ready in the most in-demand technology fields.</p>
+    </div>
+
+    <div class="hex-grid reveal">
+      <div class="hex-card">
+        <div class="hex-icon">🤖</div>
+        <div class="hex-name">ROBOTICS</div>
+        <div class="hex-sub">Build & Code</div>
+      </div>
+      <div class="hex-card">
+        <div class="hex-icon">🚁</div>
+        <div class="hex-name">DRONE</div>
+        <div class="hex-sub">UAV Systems</div>
+      </div>
+      <div class="hex-card">
+        <div class="hex-icon">⚡</div>
+        <div class="hex-name">EMBEDDED</div>
+        <div class="hex-sub">IoT & Systems</div>
+      </div>
+      <div class="hex-card">
+        <div class="hex-icon">🧠</div>
+        <div class="hex-name">AI / ML</div>
+        <div class="hex-sub">Deep Learning</div>
+      </div>
+      <div class="hex-card">
+        <div class="hex-icon">📊</div>
+        <div class="hex-name">DATA SCI</div>
+        <div class="hex-sub">Analytics</div>
+      </div>
+    </div>
+
+    <div class="course-ctas reveal">
+      <button class="btn btn-primary"><span>Register Now</span></button>
+      <button class="btn btn-outline">Email Us</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <div class="section-wrap">
+    <div class="projects-header reveal">
+      <div class="projects-header-left">
+        <div class="section-tag">Real-World Portfolio</div>
+        <h2 class="section-title">Student-Built Projects</h2>
+        <p>Every course ends with a working, deployable project — not a certificate. Explore what our students have engineered: from autonomous robots and precision drones to AI-powered surveillance systems and IoT smart grids. These are the projects that get our students hired.</p>
+      </div>
+      <div class="proj-nav">
+        <button class="proj-arrow" id="projPrev">&#8592;</button>
+        <button class="proj-arrow" id="projNext">&#8594;</button>
+      </div>
+    </div>
+
+    <div class="projects-slider-wrap reveal">
+      <div class="projects-slider" id="projSlider">
+
+        <div class="project-card">
+          <div class="project-thumb">🤖</div>
+          <div class="project-body">
+            <div class="project-category">Robotics Engineering</div>
+            <div class="project-title">Autonomous Line-Following Bot v3</div>
+            <div class="project-desc">A PID-controlled robot that navigates complex tracks, avoids obstacles in real time using ultrasonic sensors, and transmits telemetry via Bluetooth — built entirely by a Class 11 student in 6 weeks.</div>
+            <div class="project-tags">
+              <span class="project-tag">Arduino</span>
+              <span class="project-tag">PID Control</span>
+              <span class="project-tag">Sensor Fusion</span>
+              <span class="project-tag">Robotics</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-thumb">🚁</div>
+          <div class="project-body">
+            <div class="project-category">Drone Technology</div>
+            <div class="project-title">GPS-Guided Precision Delivery Drone</div>
+            <div class="project-desc">A fully programmed quadcopter that accepts GPS waypoints, auto-corrects for wind drift using IMU data, and delivers payloads with ±2m accuracy. Winner of our 2025 National Drone Challenge.</div>
+            <div class="project-tags">
+              <span class="project-tag">UAV Systems</span>
+              <span class="project-tag">GPS Navigation</span>
+              <span class="project-tag">Flight Control</span>
+              <span class="project-tag">Mission Planner</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-thumb">🌐</div>
+          <div class="project-body">
+            <div class="project-category">IoT & Embedded Systems</div>
+            <div class="project-title">Smart Agriculture IoT Monitor</div>
+            <div class="project-desc">An ESP32-based soil-moisture, temperature, and humidity monitoring system with a live dashboard and automated irrigation triggers — deployed at a real farm in Palakkad, Kerala.</div>
+            <div class="project-tags">
+              <span class="project-tag">ESP32</span>
+              <span class="project-tag">IoT Dashboard</span>
+              <span class="project-tag">MQTT</span>
+              <span class="project-tag">Edge Computing</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-thumb">🧠</div>
+          <div class="project-body">
+            <div class="project-category">Artificial Intelligence & ML</div>
+            <div class="project-title">Real-Time Face Recognition Security System</div>
+            <div class="project-desc">A Raspberry Pi-powered AI camera that identifies registered users with 96.4% accuracy using a custom-trained CNN model — replacing manual attendance in 3 partner schools.</div>
+            <div class="project-tags">
+              <span class="project-tag">Computer Vision</span>
+              <span class="project-tag">CNN</span>
+              <span class="project-tag">Raspberry Pi</span>
+              <span class="project-tag">OpenCV</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-thumb">📡</div>
+          <div class="project-body">
+            <div class="project-category">Data Science & Analytics</div>
+            <div class="project-title">Predictive Maintenance ML Pipeline</div>
+            <div class="project-desc">A machine learning model trained on 50,000+ sensor readings to predict motor failures 72 hours in advance — built as a college capstone and now piloted by a manufacturing client in Coimbatore.</div>
+            <div class="project-tags">
+              <span class="project-tag">Python</span>
+              <span class="project-tag">Scikit-learn</span>
+              <span class="project-tag">Time-Series</span>
+              <span class="project-tag">Industry 4.0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-thumb">⚡</div>
+          <div class="project-body">
+            <div class="project-category">Embedded Systems</div>
+            <div class="project-title">RTOS-Based Smart Home Controller</div>
+            <div class="project-desc">An STM32 microcontroller running FreeRTOS that controls lighting, appliances, and security locks via voice commands and a mobile app — designed, coded, and assembled by a Byvedic graduate in 8 weeks.</div>
+            <div class="project-tags">
+              <span class="project-tag">STM32</span>
+              <span class="project-tag">FreeRTOS</span>
+              <span class="project-tag">Smart Home</span>
+              <span class="project-tag">Embedded C</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="dots" id="projDots">
+      <div class="dot active" data-index="0"></div>
+      <div class="dot" data-index="1"></div>
+      <div class="dot" data-index="2"></div>
+      <div class="dot" data-index="3"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHY CHOOSE US ── -->
+<section id="why">
+  <div class="section-wrap">
+    <div class="why-grid">
+      <div>
+        <div class="section-tag reveal">Why Evolve Robotics</div>
+        <h2 class="section-title reveal">India's Most Trusted<br>Robotics Education Platform</h2>
+        <p class="section-sub reveal">While others teach slides, we build engineers. Evolve Robotics is the only platform where students go from zero to job-ready through 100% hardware-first, industry-aligned robotics training — inside schools, colleges, and labs across India.</p>
+        <div class="why-cards" style="margin-top:32px;">
+          <div class="why-card reveal">
+            <div class="why-icon">🎓</div>
+            <div>
+              <div class="why-title">STEM-Certified School Integration</div>
+              <div class="why-desc">The only robotics program embedded directly into CBSE & ICSE classrooms. 50+ partner schools trust
+                 Evolve Robotics to deliver accredited STEM curriculum — not as an afterthought, but as a core subject.</div>
+            </div>
+          </div>
+          <div class="why-card reveal">
+            <div class="why-icon">🏆</div>
+            <div>
+              <div class="why-title">Nationally Accredited &amp; Award-Winning</div>
+              <div class="why-desc">Recognised by Skill India &amp; NASSCOM. Our graduates hold certifications that hiring managers at Bosch, TCS, and ISRO actually look for. Not a participation trophy — a career passport.</div>
+            </div>
+          </div>
+          <div class="why-card reveal">
+            <div class="why-icon">🔬</div>
+            <div>
+              <div class="why-title">Zero Theory. 100% Build &amp; Deploy.</div>
+              <div class="why-desc">Every session uses real robots, live drones, and actual microcontrollers. Students write code that moves hardware on Day 1. Our project completion rate is 97% — because learning by doing works.</div>
+            </div>
+          </div>
+          <div class="why-card reveal">
+            <div class="why-icon">📈</div>
+            <div>
+              <div class="why-title">98% Placement &amp; Career Outcomes</div>
+              <div class="why-desc">From internships to full-time roles in robotics, drone tech, 
+                and AI — 98% of Evolve Robotics graduates land opportunities within 3 months of completing their course. Results, not promises.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="why-visual reveal">
+        <div class="why-orbit-item">🤖</div>
+        <div class="why-orbit-item">🚁</div>
+        <div class="why-orbit-item">💡</div>
+        <div class="why-orbit-item">📡</div>
+        <div class="why-circle">
+          <div class="why-circle-num">10+</div>
+          <div class="why-circle-label">Years of Excellence</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EVENT VIDEOS ── -->
+<section id="events">
+  <div class="section-wrap">
+    <div class="video-section-header reveal">
+      <div>
+        <div class="section-tag">Media & Coverage</div>
+        <h2 class="section-title">Event Highlights</h2>
+        <p class="section-sub">Official recordings from our national championships, school integrations, and live workshops.</p>
+      </div>
+      <button class="btn btn-outline" style="padding:9px 20px;font-size:0.82rem;">View All Videos →</button>
+    </div>
+
+    <div class="video-layout reveal">
+
+      <!-- Featured -->
+      <div class="video-featured">
+        <div class="vf-thumb">
+          🎬
+          <div class="vf-badge">★ Featured</div>
+          <div class="vf-play">▶</div>
+        </div>
+        <div class="vf-body">
+          <div class="vf-meta">
+            <span class="vf-cat">National Championship</span>
+            <span class="vf-dot-sep"></span>
+            <span class="vf-dur">12 min 34 sec</span>
+          </div>
+          <div class="vf-title">National Robotics Championship 2025 — Grand Finals</div>
+          <div class="vf-desc">Evolve Robotics students clinch top 3 positions at India's most competitive robotics arena. Watch the autonomous bots, drone race finals, and AI showcase that left 2,000 attendees speechless.</div>
+        </div>
+      </div>
+
+      <!-- Sidebar list -->
+      <div class="video-list">
+        <div class="video-list-header">Up Next — 4 Videos</div>
+
+        <div class="video-row active-row">
+          <div class="vr-thumb">🚁</div>
+          <div class="vr-info">
+            <div class="vr-cat">Drone Technology</div>
+            <div class="vr-title">Inter-Batch Drone Racing League</div>
+            <div class="vr-dur">6 min 10 sec &nbsp;·&nbsp; Mar 2025</div>
+          </div>
+          <span class="vr-arrow">›</span>
+        </div>
+
+        <div class="video-row">
+          <div class="vr-thumb">🧠</div>
+          <div class="vr-info">
+            <div class="vr-cat">AI & Machine Learning</div>
+            <div class="vr-title">48-Hour AI Hackathon — Best Projects</div>
+            <div class="vr-dur">8 min 22 sec &nbsp;·&nbsp; Jan 2025</div>
+          </div>
+          <span class="vr-arrow">›</span>
+        </div>
+
+        <div class="video-row">
+          <div class="vr-thumb">🎓</div>
+          <div class="vr-info">
+            <div class="vr-cat">School Integration</div>
+            <div class="vr-title">CBSE School Demo Day — Kerala</div>
+            <div class="vr-dur">5 min 45 sec &nbsp;·&nbsp; Nov 2024</div>
+          </div>
+          <span class="vr-arrow">›</span>
+        </div>
+
+        <div class="video-row">
+          <div class="vr-thumb">⚡</div>
+          <div class="vr-info">
+            <div class="vr-cat">Embedded Systems</div>
+            <div class="vr-title">Live IoT Workshop — ESP32 Masterclass</div>
+            <div class="vr-dur">9 min 05 sec &nbsp;·&nbsp; Oct 2024</div>
+          </div>
+          <span class="vr-arrow">›</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── JOURNEY ── -->
+<section id="journey">
+  <div class="section-wrap">
+    <div class="journey-grid">
+      <div>
+        <div class="section-tag reveal">History</div>
+        <h2 class="section-title reveal">Our Journey</h2>
+        <p class="section-sub reveal">From a small robotics club to India's fastest-growing tech education brand.</p>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">2018</div>
+            <div class="timeline-card">
+              <h4>Founded in Kerala</h4>
+              <p>Started with a small robotics workshop for 20 students in Kochi.</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">2020</div>
+            <div class="timeline-card">
+              <h4>First School Partnership</h4>
+              <p>Integrated STEM curriculum into 5 CBSE schools across Kerala.</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">2022</div>
+            <div class="timeline-card">
+              <h4>National Expansion</h4>
+              <p>Expanded to 10+ cities with dedicated training centers and drone labs.</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">2024</div>
+            <div class="timeline-card">
+              <h4>10,000 Students Milestone</h4>
+              <p>Celebrated training over 10K students across robotics, AI, and embedded systems.</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">2025</div>
+            <div class="timeline-card">
+              <h4>National Award & Accreditation</h4>
+              <p>Received national accreditation and Best EdTech Startup award.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="journey-images reveal" style="padding-top:80px;">
+        <div class="journey-img tall" style="grid-row:span 2;">🏫</div>
+        <div class="journey-img">🤖</div>
+        <div class="journey-img">🚁</div>
+        <div class="journey-img">🏆</div>
+        <div class="journey-img">🎓</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ── -->
+<section id="testimonials">
+  <div class="section-wrap">
+    <div class="reveal" style="text-align:center;margin-bottom:0;">
+      <div class="section-tag" style="justify-content:center;">Testimonials</div>
+      <h2 class="section-title">What Students Say</h2>
+      <p class="section-sub" style="margin:0 auto;">Real words from the learners who've transformed their careers with Evolve Robotics.</p>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">The robotics course at Evolve Robotics was mind-blowing. I went from zero coding knowledge to building an autonomous line-follower bot in 3 months!</p>
+        <div class="testi-author">
+          <div class="testi-avatar">AR</div>
+          <div>
+            <div class="testi-name">Arjun Rajan</div>
+            <div class="testi-role">Robotics Graduate, Now at TCS</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">The drone program is unlike anything else in India. Hands-on flying, programming, and even FPV racing — truly industry-level training.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">PK</div>
+          <div>
+            <div class="testi-name">Priya Krishnan</div>
+            <div class="testi-role">UAV Engineer, Startup Founder</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">As a school, partnering with Evolve Robotics transformed our STEM program. Our students now participate in national robotics competitions!</p>
+        <div class="testi-author">
+          <div class="testi-avatar">SM</div>
+          <div>
+            <div class="testi-name">Suresh Menon</div>
+            <div class="testi-role">Principal, Delhi Public School</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA BANNER ── -->
+<div class="cta-banner reveal">
+  <div class="cta-banner-left">
+    <h2>⚙️ Build. Evolve. Lead.</h2>
+    <p>Free demo class — seats fill fast. Secure yours now.</p>
+  </div>
+  <div class="cta-tags">
+    <span class="cta-tag">🤖 Robotics Training</span>
+    <span class="cta-tag">🚁 Drone Certification</span>
+    <span class="cta-tag">🧠 AI &amp; ML Courses</span>
+    <span class="cta-tag">⚡ Embedded Systems</span>
+    <span class="cta-tag">📊 Data Science</span>
+    <span class="cta-tag">🏫 School Programs</span>
+  </div>
+  <div class="cta-input-group">
+    <input class="cta-input" placeholder="Your email…" type="email" style="width:190px;" />
+    <button class="btn btn-primary"><span>Register Free →</span></button>
+  </div>
+</div>
+
+<!-- ── TRUSTED PARTNERS ── -->
+<section id="partners">
+  <div class="section-wrap" style="padding-bottom:50px;">
+    <div class="reveal" style="text-align:center;margin-bottom:0;">
+      <div class="section-tag" style="justify-content:center;">Network</div>
+      <h2 class="section-title">Our Trusted Partners</h2>
+      <p class="section-sub" style="margin:0 auto;">Schools, corporates, and institutions that trust Evolve Robotics to train the next generation.</p>
+    </div>
+    <div class="partners-track-wrap" style="margin-top:40px;">
+      <div class="partners-track">
+        <div class="partner-chip"><span>🏫</span><strong>Delhi Public School</strong></div>
+        <div class="partner-chip"><span>🏢</span><strong>Infosys Foundation</strong></div>
+        <div class="partner-chip"><span>🎓</span><strong>IIT Collaboration</strong></div>
+        <div class="partner-chip"><span>🌐</span><strong>NASSCOM EdTech</strong></div>
+        <div class="partner-chip"><span>🚀</span><strong>ISRO Inspired</strong></div>
+        <div class="partner-chip"><span>⚙️</span><strong>Bosch Tech Hub</strong></div>
+        <div class="partner-chip"><span>🔬</span><strong>Kerala STEM Lab</strong></div>
+        <div class="partner-chip"><span>🏅</span><strong>Skill India Partner</strong></div>
+        <!-- Duplicate for seamless loop -->
+        <div class="partner-chip"><span>🏫</span><strong>Delhi Public School</strong></div>
+        <div class="partner-chip"><span>🏢</span><strong>Infosys Foundation</strong></div>
+        <div class="partner-chip"><span>🎓</span><strong>IIT Collaboration</strong></div>
+        <div class="partner-chip"><span>🌐</span><strong>NASSCOM EdTech</strong></div>
+        <div class="partner-chip"><span>🚀</span><strong>ISRO Inspired</strong></div>
+        <div class="partner-chip"><span>⚙️</span><strong>Bosch Tech Hub</strong></div>
+        <div class="partner-chip"><span>🔬</span><strong>Kerala STEM Lab</strong></div>
+        <div class="partner-chip"><span>🏅</span><strong>Skill India Partner</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="logo">Evolve Robotics</span>
+      <p>Empowering India's youth with future-ready technology skills. From robotics to AI — we build tomorrow's innovators today.</p>
+      <div class="social-links" style="margin-top:20px;">
+        <a class="social-btn" href="#">𝕏</a>
+        <a class="social-btn" href="#">in</a>
+        <a class="social-btn" href="#">▶</a>
+        <a class="social-btn" href="#">📷</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Courses</h5>
+      <ul>
+        <li><a href="#">Robotics</a></li>
+        <li><a href="#">Drone Technology</a></li>
+        <li><a href="#">Embedded Systems</a></li>
+        <li><a href="#">AI & Machine Learning</a></li>
+        <li><a href="#">Data Science</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Our Journey</a></li>
+        <li><a href="#">Awards</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Programs</h5>
+      <ul>
+        <li><a href="#">School Integration</a></li>
+        <li><a href="#">Corporate Training</a></li>
+        <li><a href="#">Online Courses</a></li>
+        <li><a href="#">Certification</a></li>
+        <li><a href="#">Workshops</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Byvedic Technologies Pvt. Ltd. · All rights reserved.</p>
+    <p style="font-size:0.78rem;color:var(--muted);">Privacy Policy · Terms of Service · Accreditation</p>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Nav highlight on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.remove('active');
+      if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+    });
+    // Nav shadow on scroll
+    document.querySelector('nav').style.boxShadow =
+      window.scrollY > 20 ? '0 4px 30px rgba(0,0,0,0.5)' : 'none';
+  });
+
+  // ── Project Slider ──
+  const slider     = document.getElementById('projSlider');
+  const prevBtn    = document.getElementById('projPrev');
+  const nextBtn    = document.getElementById('projNext');
+  const dotsEl     = document.querySelectorAll('#projDots .dot');
+  const cards      = slider.querySelectorAll('.project-card');
+  const visible    = 3; // cards visible at once
+  const total      = cards.length;
+  const maxIndex   = total - visible;
+  let current      = 0;
+
+  function getCardWidth() {
+    const card = cards[0];
+    const gap  = 18;
+    return card.offsetWidth + gap;
+  }
+
+  function goTo(idx) {
+    current = Math.max(0, Math.min(idx, maxIndex));
+    slider.style.transform = `translateX(-${current * getCardWidth()}px)`;
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current >= maxIndex;
+    dotsEl.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => goTo(current + 1));
+  dotsEl.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.index)));
+
+  // touch/swipe
+  let touchX = 0;
+  slider.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, {passive:true});
+  slider.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) goTo(current + (dx < 0 ? 1 : -1));
+  });
+
+  goTo(0);
+
+  // Hex card hover ripple
+  document.querySelectorAll('.hex-card').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      card.style.background = 'linear-gradient(145deg, rgba(224,123,42,0.12), rgba(143,163,163,0.06))';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.background = '';
+    });
+  });
+</script>
+</body>
+</html>
