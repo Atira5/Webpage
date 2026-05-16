@@ -1,0 +1,1945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Evolve Robotics LLP – Kerala's #1 Robotics, AI, Python, Embedded Systems & STEM Education company. Enroll in courses, workshops & EIRO 2026 competition. Kochi & Kozhikode.">
+<meta name="keywords" content="Robotics courses Kerala, AI training Kochi, Python classes Kozhikode, Embedded Systems, STEM education, EIRO 2026, drone training, machine learning, data science, kids robotics, school robotics competition, Evolve Robotics LLP">
+<meta name="author" content="Evolve Robotics LLP">
+<meta property="og:title" content="Evolve Robotics LLP – Robotics, AI & STEM Education Kerala">
+<meta property="og:description" content="Join Kerala's #1 Robotics & AI learning platform. Courses, workshops, internships & EIRO 2026 competition training.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.evolveroboticsindia.com">
+<title>Evolve Robotics LLP | Robotics, AI, Python & STEM Education Kerala</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --neon-cyan: #00f5ff;
+    --neon-green: #39ff14;
+    --neon-purple: #bf00ff;
+    --neon-pink: #ff006e;
+    --dark-bg: #020b14;
+    --dark-surface: #050f1c;
+    --dark-card: #071524;
+    --dark-border: #0a2540;
+    --text-primary: #e8f4fd;
+    --text-secondary: #7ba8cc;
+    --text-muted: #3a6080;
+    --accent-gradient: linear-gradient(135deg, #00f5ff, #bf00ff);
+    --card-glow: 0 0 20px rgba(0,245,255,0.08);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Exo 2', sans-serif;
+    background: var(--dark-bg);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    line-height: 1.7;
+  }
+
+  /* ─── SCANLINE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,245,255,0.012) 2px, rgba(0,245,255,0.012) 4px);
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ─── GRID BG ─── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    padding: 0 40px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(2,11,20,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(0,245,255,0.15);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--accent-gradient);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    color: #020b14;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .logo-icon::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.3) 50%, transparent 60%);
+    animation: shimmer 3s infinite;
+  }
+
+  @keyframes shimmer { 0%,100%{transform:rotate(0deg) translateX(-100%)} 50%{transform:rotate(0deg) translateX(100%)} }
+
+  .logo-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 1px;
+    line-height: 1.2;
+  }
+
+  .logo-sub {
+    font-size: 10px;
+    color: var(--neon-cyan);
+    font-weight: 400;
+    letter-spacing: 3px;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    display: block;
+    padding: 8px 14px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .nav-links a:hover {
+    color: var(--neon-cyan);
+    background: rgba(0,245,255,0.08);
+  }
+
+  .nav-links .eiro-link a {
+    background: linear-gradient(135deg, rgba(0,245,255,0.15), rgba(191,0,255,0.15));
+    border: 1px solid rgba(0,245,255,0.3);
+    color: var(--neon-cyan);
+    animation: pulse-border 2s infinite;
+  }
+
+  @keyframes pulse-border {
+    0%,100%{border-color:rgba(0,245,255,0.3)} 
+    50%{border-color:rgba(0,245,255,0.8); box-shadow: 0 0 12px rgba(0,245,255,0.3)}
+  }
+
+  .nav-cta {
+    background: var(--accent-gradient) !important;
+    color: #020b14 !important;
+    font-weight: 700 !important;
+    border-radius: 6px;
+    padding: 9px 18px !important;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 100px 40px 60px;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+  .hero-orb-1 { width: 600px; height: 600px; background: rgba(0,245,255,0.06); top: -100px; left: -200px; }
+  .hero-orb-2 { width: 500px; height: 500px; background: rgba(191,0,255,0.06); bottom: -100px; right: -100px; }
+  .hero-orb-3 { width: 300px; height: 300px; background: rgba(57,255,20,0.04); top: 50%; left: 50%; transform:translate(-50%,-50%); }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,245,255,0.08);
+    border: 1px solid rgba(0,245,255,0.2);
+    border-radius: 100px;
+    padding: 6px 18px;
+    font-size: 11px;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 2px;
+    color: var(--neon-cyan);
+    margin-bottom: 24px;
+  }
+
+  .hero-eyebrow::before { content: '●'; animation: blink 1.5s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+  .hero h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(2.2rem, 6vw, 4.8rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, #ffffff 0%, #00f5ff 40%, #bf00ff 70%, #ff006e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-desc {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto 40px;
+    font-weight: 300;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 60px;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 32px;
+    background: var(--accent-gradient);
+    color: #020b14;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,245,255,0.4); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 32px;
+    background: transparent;
+    color: var(--neon-cyan);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: 1px solid rgba(0,245,255,0.4);
+    transition: all 0.3s;
+  }
+
+  .btn-secondary:hover { background: rgba(0,245,255,0.1); transform: translateY(-2px); }
+
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ─── TICKER SECTION ─── */
+  .ticker-section {
+    position: relative;
+    z-index: 1;
+    padding: 0;
+    border-top: 1px solid rgba(0,245,255,0.1);
+    border-bottom: 1px solid rgba(0,245,255,0.1);
+    background: rgba(5,15,28,0.8);
+    overflow: hidden;
+  }
+
+  .ticker-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .ticker-label {
+    flex-shrink: 0;
+    padding: 16px 24px;
+    background: var(--accent-gradient);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #020b14;
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  .ticker-track {
+    overflow: hidden;
+    flex: 1;
+  }
+
+  .ticker-inner {
+    display: flex;
+    gap: 0;
+    animation: ticker-move 30s linear infinite;
+    white-space: nowrap;
+  }
+
+  .ticker-inner:hover { animation-play-state: paused; }
+
+  @keyframes ticker-move {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .ticker-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    border-right: 1px solid rgba(0,245,255,0.1);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: color 0.3s;
+    cursor: default;
+    white-space: nowrap;
+  }
+
+  .ticker-item:hover { color: var(--neon-cyan); }
+
+  .ticker-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  /* ─── SECTIONS ─── */
+  section { position: relative; z-index: 1; }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .section-eyebrow {
+    display: inline-block;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--neon-cyan);
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+
+  .section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+  }
+
+  .section-title span {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .section-subtitle {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    max-width: 550px;
+    margin: 0 auto;
+    font-weight: 300;
+  }
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+  .py-section { padding: 100px 0; }
+
+  /* ─── WHY CHOOSE GRID ─── */
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+  }
+
+  .feature-card {
+    background: var(--dark-card);
+    border: 1px solid var(--dark-border);
+    border-radius: 16px;
+    padding: 32px;
+    transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent-gradient);
+    transform: scaleX(0);
+    transition: transform 0.4s;
+    transform-origin: left;
+  }
+
+  .feature-card:hover { border-color: rgba(0,245,255,0.25); transform: translateY(-4px); box-shadow: var(--card-glow); }
+  .feature-card:hover::before { transform: scaleX(1); }
+
+  .feature-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    margin-bottom: 20px;
+  }
+
+  .feature-card h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+  }
+
+  .feature-card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* ─── COURSES ─── */
+  .courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .course-card {
+    background: var(--dark-card);
+    border: 1px solid var(--dark-border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.4s;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .course-card:hover { border-color: rgba(0,245,255,0.25); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,245,255,0.08); }
+
+  .course-banner {
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .course-banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, var(--dark-card));
+  }
+
+  .course-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+
+  .course-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 10px;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .course-card h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .course-card p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 16px;
+    flex: 1;
+    font-weight: 300;
+  }
+
+  .course-meta {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .course-enroll {
+    display: block;
+    text-align: center;
+    padding: 11px;
+    border-radius: 8px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-decoration: none;
+    border: 1px solid rgba(0,245,255,0.3);
+    color: var(--neon-cyan);
+    transition: all 0.3s;
+  }
+
+  .course-enroll:hover { background: var(--accent-gradient); color: #020b14; border-color: transparent; }
+
+  /* ─── INSTRUCTORS ─── */
+  .instructors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+  }
+
+  .instructor-card {
+    background: var(--dark-card);
+    border: 1px solid var(--dark-border);
+    border-radius: 16px;
+    padding: 28px 24px;
+    text-align: center;
+    transition: all 0.4s;
+  }
+
+  .instructor-card:hover { border-color: rgba(0,245,255,0.25); transform: translateY(-4px); box-shadow: var(--card-glow); }
+
+  .instructor-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    background: linear-gradient(135deg, rgba(0,245,255,0.15), rgba(191,0,255,0.15));
+    border: 2px solid rgba(0,245,255,0.2);
+    color: var(--neon-cyan);
+    position: relative;
+  }
+
+  .instructor-avatar::after {
+    content: '✔';
+    position: absolute;
+    bottom: 2px; right: 2px;
+    width: 20px; height: 20px;
+    background: var(--neon-green);
+    border-radius: 50%;
+    font-size: 10px;
+    color: #020b14;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 20px;
+  }
+
+  .instructor-card h4 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+
+  .instructor-role {
+    font-size: 12px;
+    color: var(--neon-cyan);
+    margin-bottom: 8px;
+  }
+
+  .instructor-exp {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* ─── PLACEMENTS ─── */
+  .placement-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 24px;
+    margin-bottom: 60px;
+  }
+
+  .placement-stat {
+    background: var(--dark-card);
+    border: 1px solid var(--dark-border);
+    border-radius: 16px;
+    padding: 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .placement-stat::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .placement-stat:nth-child(1)::before { background: linear-gradient(90deg, var(--neon-cyan), transparent); }
+  .placement-stat:nth-child(2)::before { background: linear-gradient(90deg, var(--neon-purple), transparent); }
+  .placement-stat:nth-child(3)::before { background: linear-gradient(90deg, var(--neon-green), transparent); }
+  .placement-stat:nth-child(4)::before { background: linear-gradient(90deg, var(--neon-pink), transparent); }
+
+  .placement-num {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 900;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+
+  .placement-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    letter-spacing: 1px;
+  }
+
+  .companies-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+  }
+
+  .company-pill {
+    padding: 10px 22px;
+    background: var(--dark-card);
+    border: 1px solid var(--dark-border);
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: all 0.3s;
+  }
+
+  .company-pill:hover { border-color: rgba(0,245,255,0.3); color: var(--neon-cyan); }
+
+  /* ─── SCHOOL PROGRAMS ─── */
+  .school-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    .school-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .hero h1 { font-size: 2rem; }
+    .container { padding: 0 20px; }
+  }
+
+  .school-content h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+
+  .school-content h2 span {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .school-content p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 24px;
+    font-weight: 300;
+  }
+
+  .age-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .age-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    background: var(--dark-card);
+    border: 1px solid var(--dark-border);
+    border-radius: 10px;
+    transition: all 0.3s;
+  }
+
+  .age-row:hover { border-color: rgba(0,245,255,0.2); }
+
+  .age-badge {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  .age-row p { font-size: 13px; color: var(--text-secondary); margin: 0; font-weight: 300; }
+
+  .school-visual {
+    background: var(--dark-card);
+    border: 1px solid var(--dark-border);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .school-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(0,245,255,0.04) 0%, transparent 70%);
+  }
+
+  .orbit-system {
+    width: 240px;
+    height: 240px;
+    margin: 0 auto 24px;
+    position: relative;
+  }
+
+  .orbit-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 70px; height: 70px;
+    border-radius: 50%;
+    background: var(--accent-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    box-shadow: 0 0 30px rgba(0,245,255,0.3);
+  }
+
+  .orbit-ring {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 50%;
+    border: 1px solid rgba(0,245,255,0.15);
+  }
+
+  .orbit-ring-1 { width: 130px; height: 130px; animation: spin 8s linear infinite; }
+  .orbit-ring-2 { width: 200px; height: 200px; animation: spin 14s linear infinite reverse; }
+  .orbit-ring-3 { width: 240px; height: 240px; animation: spin 20s linear infinite; }
+
+  @keyframes spin { from { transform: translate(-50%,-50%) rotate(0deg); } to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+  .orbit-dot {
+    position: absolute;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--dark-card);
+    border: 1px solid rgba(0,245,255,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .od-1 { top: -14px; left: 50%; margin-left: -14px; }
+  .od-2 { top: -14px; left: 50%; margin-left: -14px; }
+  .od-3 { top: -14px; left: 50%; margin-left: -14px; }
+
+  /* ─── EIRO 2026 ─── */
+  .eiro-section {
+    background: linear-gradient(135deg, rgba(0,245,255,0.04), rgba(191,0,255,0.04));
+    border-top: 1px solid rgba(0,245,255,0.1);
+    border-bottom: 1px solid rgba(0,245,255,0.1);
+  }
+
+  .eiro-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  @media (max-width: 768px) { .eiro-inner { grid-template-columns: 1fr; } }
+
+  .eiro-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(191,0,255,0.1);
+    border: 1px solid rgba(191,0,255,0.3);
+    border-radius: 100px;
+    padding: 6px 18px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #bf00ff;
+    margin-bottom: 20px;
+  }
+
+  .eiro-content h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  .eiro-content h2 .grad { background: linear-gradient(135deg, #bf00ff, #00f5ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+  .eiro-content p { color: var(--text-secondary); font-size: 14px; line-height: 1.8; margin-bottom: 28px; font-weight: 300; }
+
+  .eiro-features {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .eiro-feat {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  .eiro-feat::before {
+    content: '▸';
+    color: var(--neon-cyan);
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+
+  .eiro-card-visual {
+    background: var(--dark-card);
+    border: 1px solid rgba(191,0,255,0.2);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .eiro-card-visual::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: -60px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(191,0,255,0.06);
+    filter: blur(40px);
+  }
+
+  .eiro-trophy {
+    font-size: 80px;
+    margin-bottom: 20px;
+    display: block;
+    animation: float 4s ease-in-out infinite;
+  }
+
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+
+  .eiro-dates {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+  }
+
+  .date-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    background: rgba(191,0,255,0.06);
+    border: 1px solid rgba(191,0,255,0.15);
+    border-radius: 8px;
+    font-size: 13px;
+  }
+
+  .date-label { color: var(--text-secondary); font-weight: 300; }
+  .date-val { color: #bf00ff; font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700; }
+
+  /* ─── TESTIMONIALS ─── */
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  .testimonial-card {
+    background: var(--dark-card);
+    border: 1px solid var(--dark-border);
+    border-radius: 16px;
+    padding: 28px;
+    transition: all 0.4s;
+    position: relative;
+  }
+
+  .testimonial-card:hover { border-color: rgba(0,245,255,0.2); transform: translateY(-4px); }
+
+  .stars { color: #fbbf24; font-size: 14px; margin-bottom: 14px; letter-spacing: 2px; }
+
+  .testimonial-card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 20px;
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .author-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    font-family: 'Orbitron', sans-serif;
+    flex-shrink: 0;
+  }
+
+  .author-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+  .author-role { font-size: 11px; color: var(--text-muted); }
+
+  /* ─── CONTACT ─── */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  @media (max-width: 768px) { .contact-grid { grid-template-columns: 1fr; } }
+
+  .contact-info h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  .contact-info p { color: var(--text-secondary); font-size: 14px; line-height: 1.8; margin-bottom: 32px; font-weight: 300; }
+
+  .contact-items { display: flex; flex-direction: column; gap: 16px; }
+
+  .contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 18px 20px;
+    background: var(--dark-card);
+    border: 1px solid var(--dark-border);
+    border-radius: 12px;
+    transition: border-color 0.3s;
+  }
+
+  .contact-item:hover { border-color: rgba(0,245,255,0.2); }
+
+  .contact-icon {
+    width: 42px; height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    background: rgba(0,245,255,0.08);
+  }
+
+  .contact-text { font-size: 14px; }
+  .contact-text strong { display: block; color: var(--text-primary); margin-bottom: 2px; font-weight: 600; }
+  .contact-text span { color: var(--text-secondary); font-weight: 300; font-size: 13px; }
+
+  /* ─── CONTACT FORM ─── */
+  .contact-form {
+    background: var(--dark-card);
+    border: 1px solid var(--dark-border);
+    border-radius: 20px;
+    padding: 40px;
+  }
+
+  .form-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-primary);
+    margin-bottom: 28px;
+  }
+
+  .form-group { margin-bottom: 20px; }
+  .form-group label { display: block; font-size: 11px; font-family: 'Orbitron', sans-serif; letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 8px; }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 13px 16px;
+    background: rgba(0,245,255,0.03);
+    border: 1px solid var(--dark-border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-family: 'Exo 2', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: rgba(0,245,255,0.4); }
+
+  .form-group select option { background: var(--dark-card); }
+  .form-group textarea { height: 100px; resize: vertical; }
+
+  .form-submit {
+    width: 100%;
+    padding: 14px;
+    background: var(--accent-gradient);
+    color: #020b14;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .form-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,245,255,0.4); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    position: relative;
+    z-index: 1;
+    background: var(--dark-surface);
+    border-top: 1px solid var(--dark-border);
+    padding: 60px 0 30px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 50px;
+  }
+
+  @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+
+  .footer-brand p { color: var(--text-secondary); font-size: 13px; line-height: 1.8; margin: 16px 0 24px; font-weight: 300; }
+
+  .social-row { display: flex; gap: 10px; }
+
+  .social-btn {
+    width: 38px; height: 38px;
+    border-radius: 8px;
+    background: var(--dark-card);
+    border: 1px solid var(--dark-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 15px;
+    transition: all 0.3s;
+  }
+
+  .social-btn:hover { border-color: rgba(0,245,255,0.3); color: var(--neon-cyan); }
+
+  .footer-col h5 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--neon-cyan);
+    margin-bottom: 18px;
+  }
+
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+  .footer-col a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.3s;
+    font-weight: 300;
+  }
+
+  .footer-col a:hover { color: var(--neon-cyan); }
+
+  .footer-bottom {
+    padding-top: 28px;
+    border-top: 1px solid var(--dark-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-bottom p { font-size: 12px; color: var(--text-muted); font-weight: 300; }
+
+  /* ─── DIVIDER ─── */
+  .neon-divider {
+    width: 60px; height: 2px;
+    background: var(--accent-gradient);
+    margin: 0 auto 16px;
+    border-radius: 2px;
+  }
+
+  /* ─── COUNTDOWN ─── */
+  .countdown {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .countdown-unit {
+    text-align: center;
+    min-width: 64px;
+    background: rgba(191,0,255,0.08);
+    border: 1px solid rgba(191,0,255,0.2);
+    border-radius: 10px;
+    padding: 14px 10px;
+  }
+
+  .countdown-num {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #bf00ff;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .countdown-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  /* ─── TRUST BELT ─── */
+  .trust-belt {
+    padding: 40px 0;
+    border-top: 1px solid var(--dark-border);
+    border-bottom: 1px solid var(--dark-border);
+    background: var(--dark-surface);
+  }
+
+  .trust-row {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 300;
+  }
+
+  .trust-item span { font-size: 20px; }
+
+  /* SEO hidden content for search engines */
+  .seo-content {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+
+<!-- SEO structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  "name": "Evolve Robotics LLP",
+  "description": "Kerala's #1 Robotics, AI, Python, Embedded Systems & STEM Education Company",
+  "url": "https://www.evolveroboticsindia.com",
+  "telephone": "+91-9746038383",
+  "address": [
+    {"@type": "PostalAddress", "streetAddress": "First Floor, Triveni Court, KP Vallon Rd, Kadavanthra", "addressLocality": "Kochi", "addressRegion": "Kerala", "postalCode": "682020", "addressCountry": "IN"},
+    {"@type": "PostalAddress", "streetAddress": "OVR Building, 1st Floor, Near Christian College, Vellayil", "addressLocality": "Kozhikode", "addressRegion": "Kerala", "postalCode": "673011", "addressCountry": "IN"}
+  ],
+  "sameAs": ["https://instagram.com/evolve_robotics_", "https://in.linkedin.com/company/evolve-robotics"]
+}
+</script>
+
+<!-- Hidden SEO text -->
+<div class="seo-content">
+  <h1>Evolve Robotics LLP – Best Robotics and AI Training Institute in Kerala</h1>
+  <p>Evolve Robotics LLP offers the best robotics courses, AI training, Python programming, machine learning, embedded systems, drone engineering, and data science courses in Kochi and Kozhikode, Kerala. Enroll for EIRO 2026 robotics competition preparation. Certified instructors with industry experience. Internship programs for engineering students. School robotics workshops. Online and offline classes available.</p>
+</div>
+
+<!-- ═══════════════ NAV ═══════════════ -->
+<nav role="navigation" aria-label="Main Navigation">
+  <a href="#home" class="nav-logo" aria-label="Evolve Robotics Home">
+    <div class="logo-icon">ER</div>
+    <div>
+      <div class="logo-text">EVOLVE ROBOTICS</div>
+      <div class="logo-sub">LLP</div>
+    </div>
+  </a>
+  <ul class="nav-links" role="list">
+    <li><a href="#home">HOME</a></li>
+    <li><a href="#courses">COURSES</a></li>
+    <li><a href="#infinity-lab">INFINITY LAB</a></li>
+    <li><a href="#careers">CAREERS</a></li>
+    <li><a href="#services">SERVICES</a></li>
+    <li class="eiro-link"><a href="#eiro2026">EIRO 2026</a></li>
+    <li><a href="#contact" class="nav-cta">ENROLL NOW</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero" id="home" aria-label="Hero - Evolve Robotics">
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+
+  <div style="position:relative;z-index:2;">
+    <div class="hero-eyebrow">KERALA'S #1 ROBOTICS & AI INSTITUTE</div>
+    <h1>Build the Future<br>with Robots & AI</h1>
+    <p class="hero-desc">Learn Robotics, Artificial Intelligence, Python, Embedded Systems, Drones & more from industry experts. Kochi · Kozhikode · Online.</p>
+    <div class="hero-btns">
+      <a href="#courses" class="btn-primary">🚀 Explore Courses</a>
+      <a href="#eiro2026" class="btn-secondary">🏆 EIRO 2026</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-num">10K+</div><div class="stat-label">Students Trained</div></div>
+      <div class="stat-item"><div class="stat-num">6+</div><div class="stat-label">Years Experience</div></div>
+      <div class="stat-item"><div class="stat-num">50+</div><div class="stat-label">Expert Trainers</div></div>
+      <div class="stat-item"><div class="stat-num">4.8★</div><div class="stat-label">Average Rating</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ TICKER ═══════════════ -->
+<div class="ticker-section" aria-label="Courses offered">
+  <div class="ticker-wrapper">
+    <div class="ticker-label">WE TEACH</div>
+    <div class="ticker-track">
+      <div class="ticker-inner" id="ticker">
+        <!-- set 1 -->
+        <div class="ticker-item"><div class="ticker-icon">🤖</div> Robotics Engineering</div>
+        <div class="ticker-item"><div class="ticker-icon">🐍</div> Python Programming</div>
+        <div class="ticker-item"><div class="ticker-icon">🚁</div> Drone Technology</div>
+        <div class="ticker-item"><div class="ticker-icon">🧠</div> Artificial Intelligence</div>
+        <div class="ticker-item"><div class="ticker-icon">📡</div> Embedded Systems</div>
+        <div class="ticker-item"><div class="ticker-icon">📊</div> Data Science</div>
+        <div class="ticker-item"><div class="ticker-icon">⚙️</div> Machine Learning</div>
+        <div class="ticker-item"><div class="ticker-icon">🕶️</div> AR / VR Development</div>
+        <div class="ticker-item"><div class="ticker-icon">🖨️</div> 3D Printing</div>
+        <div class="ticker-item"><div class="ticker-icon">🎮</div> Game Development</div>
+        <div class="ticker-item"><div class="ticker-icon">🔬</div> STEM Education</div>
+        <div class="ticker-item"><div class="ticker-icon">🏆</div> EIRO 2026 Prep</div>
+        <!-- set 2 (duplicate for seamless loop) -->
+        <div class="ticker-item"><div class="ticker-icon">🤖</div> Robotics Engineering</div>
+        <div class="ticker-item"><div class="ticker-icon">🐍</div> Python Programming</div>
+        <div class="ticker-item"><div class="ticker-icon">🚁</div> Drone Technology</div>
+        <div class="ticker-item"><div class="ticker-icon">🧠</div> Artificial Intelligence</div>
+        <div class="ticker-item"><div class="ticker-icon">📡</div> Embedded Systems</div>
+        <div class="ticker-item"><div class="ticker-icon">📊</div> Data Science</div>
+        <div class="ticker-item"><div class="ticker-icon">⚙️</div> Machine Learning</div>
+        <div class="ticker-item"><div class="ticker-icon">🕶️</div> AR / VR Development</div>
+        <div class="ticker-item"><div class="ticker-icon">🖨️</div> 3D Printing</div>
+        <div class="ticker-item"><div class="ticker-icon">🎮</div> Game Development</div>
+        <div class="ticker-item"><div class="ticker-icon">🔬</div> STEM Education</div>
+        <div class="ticker-item"><div class="ticker-icon">🏆</div> EIRO 2026 Prep</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ WHY EVOLVE ═══════════════ -->
+<section class="py-section" id="why-choose" aria-label="Why Choose Evolve Robotics">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Why Choose Us</span>
+      <div class="neon-divider"></div>
+      <h2 class="section-title">Why <span>Evolve Robotics</span> Stands Apart</h2>
+      <p class="section-subtitle">From kids to graduates, we power your journey into the world of robotics and technology.</p>
+    </div>
+    <div class="why-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(0,245,255,0.1)">🏅</div>
+        <h3>National & International Competitions</h3>
+        <p>We train students to compete and win at EIRO, WRO, FLL, and MakeX — Kerala's top competition preparation hub.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(191,0,255,0.1)">📚</div>
+        <h3>Multi-Year Curriculum</h3>
+        <p>Structured courses from Class 2 to professional graduates. Every stage builds on the last for deep mastery.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(57,255,20,0.1)">👨‍🏫</div>
+        <h3>Industry Expert Trainers</h3>
+        <p>Our trainers bring real industry experience. Sajeesh Krishnan, CIO, leads curriculum innovation with hands-on excellence.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(255,0,110,0.1)">🕶️</div>
+        <h3>Infinity AR/VR Research Lab</h3>
+        <p>Evolve Infinity — our dedicated R&D lab where students explore the frontiers of augmented and virtual reality.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(0,245,255,0.1)">🤝</div>
+        <h3>Internship & Placement Support</h3>
+        <p>Job-oriented programs with internship certifications. Final year project guidance with placement assistance.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(191,0,255,0.1)">🌐</div>
+        <h3>Online & Offline Flexibility</h3>
+        <p>Learn from Kochi, Kozhikode or anywhere in India. Live online sessions with the same quality as in-person training.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ COURSES ═══════════════ -->
+<section class="py-section" id="courses" aria-label="Courses at Evolve Robotics" style="background:rgba(5,15,28,0.5);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Our Programs</span>
+      <div class="neon-divider"></div>
+      <h2 class="section-title">Courses for Every <span>Tech Enthusiast</span></h2>
+      <p class="section-subtitle">Beginner to advanced — robotics, AI, coding, drones, and more. Choose your path and start building.</p>
+    </div>
+    <div class="courses-grid">
+      <article class="course-card">
+        <div class="course-banner" style="background:linear-gradient(135deg,rgba(0,245,255,0.08),rgba(0,245,255,0.02))">🤖</div>
+        <div class="course-body">
+          <span class="course-tag" style="background:rgba(0,245,255,0.1);color:var(--neon-cyan);">FLAGSHIP</span>
+          <h3>Robotics Engineering Program</h3>
+          <p>Build real robots from scratch using wood, sensors, actuators & microcontrollers. No factory kits — pure innovation.</p>
+          <div class="course-meta">
+            <span class="meta-item">⏱️ 3 Months</span>
+            <span class="meta-item">🎯 All Levels</span>
+            <span class="meta-item">📍 Offline/Online</span>
+          </div>
+          <a href="#contact" class="course-enroll">ENROLL NOW →</a>
+        </div>
+      </article>
+      <article class="course-card">
+        <div class="course-banner" style="background:linear-gradient(135deg,rgba(191,0,255,0.08),rgba(191,0,255,0.02))">🧠</div>
+        <div class="course-body">
+          <span class="course-tag" style="background:rgba(191,0,255,0.1);color:#bf00ff;">POPULAR</span>
+          <h3>Python, ML & AI Mastery Camp</h3>
+          <p>Hands-on Python programming, Machine Learning algorithms, and AI model building for students and graduates.</p>
+          <div class="course-meta">
+            <span class="meta-item">⏱️ 5 Days / 3 Months</span>
+            <span class="meta-item">🎯 Intermediate</span>
+          </div>
+          <a href="#contact" class="course-enroll">ENROLL NOW →</a>
+        </div>
+      </article>
+      <article class="course-card">
+        <div class="course-banner" style="background:linear-gradient(135deg,rgba(57,255,20,0.06),rgba(57,255,20,0.02))">📡</div>
+        <div class="course-body">
+          <span class="course-tag" style="background:rgba(57,255,20,0.1);color:var(--neon-green);">CAREER COURSE</span>
+          <h3>Embedded Systems & Arduino</h3>
+          <p>From circuit design to IoT deployment. A comprehensive program preparing you for the embedded engineering industry.</p>
+          <div class="course-meta">
+            <span class="meta-item">⏱️ 3 Months</span>
+            <span class="meta-item">🎯 Graduate Level</span>
+          </div>
+          <a href="#contact" class="course-enroll">ENROLL NOW →</a>
+        </div>
+      </article>
+      <article class="course-card">
+        <div class="course-banner" style="background:linear-gradient(135deg,rgba(255,0,110,0.08),rgba(255,0,110,0.02))">🚁</div>
+        <div class="course-body">
+          <span class="course-tag" style="background:rgba(255,0,110,0.1);color:var(--neon-pink);">NEW</span>
+          <h3>Drone Technology & Engineering</h3>
+          <p>Fabricate and program drones from the ground up. Flight dynamics, RC systems, and autonomous navigation.</p>
+          <div class="course-meta">
+            <span class="meta-item">⏱️ 2 Months</span>
+            <span class="meta-item">🎯 All Levels</span>
+          </div>
+          <a href="#contact" class="course-enroll">ENROLL NOW →</a>
+        </div>
+      </article>
+      <article class="course-card">
+        <div class="course-banner" style="background:linear-gradient(135deg,rgba(0,245,255,0.05),rgba(191,0,255,0.05))">📊</div>
+        <div class="course-body">
+          <span class="course-tag" style="background:rgba(0,245,255,0.08);color:var(--neon-cyan);">JOB ORIENTED</span>
+          <h3>Data Science & Analytics</h3>
+          <p>Learn data wrangling, visualization, statistical modeling and build real-world data products for industry.</p>
+          <div class="course-meta">
+            <span class="meta-item">⏱️ 3 Months</span>
+            <span class="meta-item">🎯 Graduate</span>
+          </div>
+          <a href="#contact" class="course-enroll">ENROLL NOW →</a>
+        </div>
+      </article>
+      <article class="course-card">
+        <div class="course-banner" style="background:linear-gradient(135deg,rgba(255,191,0,0.08),rgba(255,191,0,0.02))">🕶️</div>
+        <div class="course-body">
+          <span class="course-tag" style="background:rgba(255,191,0,0.1);color:#fbbf24;" id="infinity-lab">INFINITY LAB</span>
+          <h3>AR/VR Development</h3>
+          <p>Build immersive augmented and virtual reality experiences using cutting-edge tools in our dedicated Infinity Lab.</p>
+          <div class="course-meta">
+            <span class="meta-item">⏱️ 6 Weeks</span>
+            <span class="meta-item">🎯 Advanced</span>
+          </div>
+          <a href="#contact" class="course-enroll">ENROLL NOW →</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ INSTRUCTORS ═══════════════ -->
+<section class="py-section" aria-label="Expert Instructors">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Our Experts</span>
+      <div class="neon-divider"></div>
+      <h2 class="section-title">Learn from <span>Experienced Instructors</span></h2>
+      <p class="section-subtitle">Our team brings years of real-world experience in robotics, AI, and embedded engineering.</p>
+    </div>
+    <div class="instructors-grid">
+      <div class="instructor-card">
+        <div class="instructor-avatar">SK</div>
+        <h4>Sajeesh Krishnan</h4>
+        <div class="instructor-role">Chief Innovation Officer</div>
+        <div class="instructor-exp">Robotics & AI · 10+ yrs</div>
+      </div>
+      <div class="instructor-card">
+        <div class="instructor-avatar" style="color:var(--neon-purple);border-color:rgba(191,0,255,0.3)">AR</div>
+        <h4>Arun Raj</h4>
+        <div class="instructor-role">Embedded Systems Lead</div>
+        <div class="instructor-exp">Arduino · IoT · 8+ yrs</div>
+      </div>
+      <div class="instructor-card">
+        <div class="instructor-avatar" style="color:var(--neon-green);border-color:rgba(57,255,20,0.3)">PM</div>
+        <h4>Priya Menon</h4>
+        <div class="instructor-role">AI/ML Specialist</div>
+        <div class="instructor-exp">Python · Data Science · 7+ yrs</div>
+      </div>
+      <div class="instructor-card">
+        <div class="instructor-avatar" style="color:var(--neon-pink);border-color:rgba(255,0,110,0.3)">RK</div>
+        <h4>Rahul Kumar</h4>
+        <div class="instructor-role">Drone Engineering Trainer</div>
+        <div class="instructor-exp">UAV · Aerodynamics · 6+ yrs</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ PLACEMENT ═══════════════ -->
+<section class="py-section" id="services" aria-label="Placements and Career Services" style="background:rgba(5,15,28,0.5);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Placements</span>
+      <div class="neon-divider"></div>
+      <h2 class="section-title">Career <span>Success Numbers</span></h2>
+      <p class="section-subtitle">Our students go on to work at top tech companies and start their own ventures across India.</p>
+    </div>
+    <div class="placement-stats">
+      <div class="placement-stat">
+        <div class="placement-num">500+</div>
+        <div class="placement-label">Students Placed</div>
+      </div>
+      <div class="placement-stat">
+        <div class="placement-num">85%</div>
+        <div class="placement-label">Placement Rate</div>
+      </div>
+      <div class="placement-stat">
+        <div class="placement-num">₹4.5L</div>
+        <div class="placement-label">Avg First Package</div>
+      </div>
+      <div class="placement-stat">
+        <div class="placement-num">60+</div>
+        <div class="placement-label">Hiring Partners</div>
+      </div>
+    </div>
+    <div class="section-header" style="margin-bottom:24px;">
+      <p class="section-subtitle">Our alumni work at</p>
+    </div>
+    <div class="companies-row">
+      <div class="company-pill">KELTRON</div>
+      <div class="company-pill">TCS</div>
+      <div class="company-pill">Infosys</div>
+      <div class="company-pill">IIT Research Labs</div>
+      <div class="company-pill">ISRO</div>
+      <div class="company-pill">Wipro</div>
+      <div class="company-pill">L&T Technology</div>
+      <div class="company-pill">HCL</div>
+      <div class="company-pill">Own Startups</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SCHOOL PROGRAMS ═══════════════ -->
+<section class="py-section" aria-label="School Robotics Programs">
+  <div class="container">
+    <div class="school-grid">
+      <div class="school-content">
+        <span class="section-eyebrow">For Schools & Kids</span>
+        <h2>Nurturing <span>Young Innovators</span><br>from Age 7+</h2>
+        <p>India's No. 1 Robotics Learning Program for junior, senior, and super-senior groups. Kids build real projects using nuts, bolts, sensors — no factory kits. We want them to believe they can <em>create</em>, not just assemble.</p>
+        <div class="age-groups">
+          <div class="age-row">
+            <span class="age-badge" style="background:rgba(0,245,255,0.1);color:var(--neon-cyan)">JUNIOR</span>
+            <p>Age 7–10 · Introduction to logic, simple bots & STEM play</p>
+          </div>
+          <div class="age-row">
+            <span class="age-badge" style="background:rgba(191,0,255,0.1);color:#bf00ff">SENIOR</span>
+            <p>Age 11–14 · Arduino, sensors, coding & competitive robotics</p>
+          </div>
+          <div class="age-row">
+            <span class="age-badge" style="background:rgba(57,255,20,0.1);color:var(--neon-green)">SUPER</span>
+            <p>Age 15–17+ · AI, drones, advanced circuits & competition prep</p>
+          </div>
+        </div>
+        <br>
+        <a href="#contact" class="btn-primary" style="display:inline-flex;">🏫 Bring to My School</a>
+      </div>
+      <div class="school-visual">
+        <div class="orbit-system">
+          <div class="orbit-ring orbit-ring-1"></div>
+          <div class="orbit-ring orbit-ring-2"></div>
+          <div class="orbit-ring orbit-ring-3"></div>
+          <div class="orbit-center">🤖</div>
+          <div class="orbit-ring orbit-ring-1" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(0deg);animation:spin 8s linear infinite;">
+            <div class="orbit-dot od-1">🐍</div>
+          </div>
+          <div class="orbit-ring orbit-ring-2" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(45deg);animation:spin 14s linear infinite reverse;">
+            <div class="orbit-dot od-2">🚁</div>
+          </div>
+          <div class="orbit-ring orbit-ring-3" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(90deg);animation:spin 20s linear infinite;">
+            <div class="orbit-dot od-3">🧠</div>
+          </div>
+        </div>
+        <div style="font-family:'Orbitron',sans-serif;font-size:12px;color:var(--neon-cyan);letter-spacing:2px;margin-bottom:6px">EVOLVE INFINITY</div>
+        <p style="font-size:13px;color:var(--text-muted);font-weight:300">Our AR/VR Research Lab & innovation hub where the next generation of tech leaders is born.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ EIRO 2026 ═══════════════ -->
+<section class="py-section eiro-section" id="eiro2026" aria-label="EIRO 2026 Robotics Competition">
+  <div class="container">
+    <div class="eiro-inner">
+      <div class="eiro-content">
+        <div class="eiro-badge">🏆 EIRO 2026 ROBOTICS & AI COMPETITION</div>
+        <h2><span class="grad">Compete at the<br>National Stage</span></h2>
+        <p>Evolve Robotics is your premier training partner for EIRO 2026 — the European International Robot Olympiad. Get mentored by industry experts, compete, and bring home the trophy. Open to students aged 7 to 17+.</p>
+        <div class="eiro-features">
+          <div class="eiro-feat">Expert-guided EIRO, WRO, FLL & MakeX preparation</div>
+          <div class="eiro-feat">Specialized competition kits included</div>
+          <div class="eiro-feat">Past winners as your mentors</div>
+          <div class="eiro-feat">Mock competitions & performance reviews</div>
+          <div class="eiro-feat">Certification for all participants</div>
+        </div>
+        <br>
+        <a href="#contact" class="btn-primary" style="display:inline-flex;background:linear-gradient(135deg,#bf00ff,#00f5ff);">🚀 Register for EIRO 2026</a>
+      </div>
+      <div class="eiro-card-visual">
+        <span class="eiro-trophy">🏆</span>
+        <div style="font-family:'Orbitron',sans-serif;font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:8px">EIRO 2026</div>
+        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:24px;font-weight:300">Registration is now open</p>
+        <div class="countdown" id="countdown">
+          <div class="countdown-unit"><div class="countdown-num" id="cd-days">--</div><div class="countdown-label">Days</div></div>
+          <div class="countdown-unit"><div class="countdown-num" id="cd-hrs">--</div><div class="countdown-label">Hours</div></div>
+          <div class="countdown-unit"><div class="countdown-num" id="cd-min">--</div><div class="countdown-label">Mins</div></div>
+          <div class="countdown-unit"><div class="countdown-num" id="cd-sec">--</div><div class="countdown-label">Secs</div></div>
+        </div>
+        <p style="font-size:10px;color:var(--text-muted);margin-top:12px;font-family:'Orbitron',sans-serif;letter-spacing:1.5px">UNTIL REGISTRATION CLOSES</p>
+        <div class="eiro-dates" style="margin-top:24px;">
+          <div class="date-row"><span class="date-label">Registration Opens</span><span class="date-val">JUN 2026</span></div>
+          <div class="date-row"><span class="date-label">Training Begins</span><span class="date-val">JUL 2026</span></div>
+          <div class="date-row"><span class="date-label">Competition Day</span><span class="date-val">NOV 2026</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ TESTIMONIALS ═══════════════ -->
+<section class="py-section" aria-label="Student Testimonials">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Student Reviews</span>
+      <div class="neon-divider"></div>
+      <h2 class="section-title">What Our <span>Students Say</span></h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"Evolve Robotics changed how I see technology. My son built his first robot at 9 and now he is preparing for EIRO. The instructors are incredibly patient and skilled."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background:rgba(0,245,255,0.1);color:var(--neon-cyan)">MR</div>
+          <div><div class="author-name">Mrs. R Pillai</div><div class="author-role">Parent · Kochi</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"The embedded systems course gave me hands-on skills I couldn't get in college. Got placed with a ₹5.5L package within 2 months of completing the course!"</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background:rgba(191,0,255,0.1);color:#bf00ff">AK</div>
+          <div><div class="author-name">Arun K.</div><div class="author-role">Graduate · Placed at L&T</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"Best robotics institute in Kerala. Teachers are knowledgeable, classes are well structured and the hands-on kits make every session exciting and memorable."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background:rgba(57,255,20,0.1);color:var(--neon-green)">ML</div>
+          <div><div class="author-name">Mohammed Liyaz</div><div class="author-role">Student · Kozhikode</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ TRUST BELT ═══════════════ -->
+<div class="trust-belt">
+  <div class="container">
+    <div class="trust-row">
+      <div class="trust-item"><span>🎓</span> Certified Curriculum</div>
+      <div class="trust-item"><span>🏫</span> School & College Tie-ups</div>
+      <div class="trust-item"><span>🌐</span> Online & Offline Classes</div>
+      <div class="trust-item"><span>📜</span> Industry Certifications</div>
+      <div class="trust-item"><span>🤝</span> Internship Guaranteed</div>
+      <div class="trust-item"><span>🏆</span> Competition Preparation</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ CONTACT ═══════════════ -->
+<section class="py-section" id="contact" aria-label="Contact Evolve Robotics">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Get In Touch</span>
+      <div class="neon-divider"></div>
+      <h2 class="section-title">Start Your <span>Tech Journey Today</span></h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h2>We're here to <span style="color:var(--neon-cyan)">help you evolve</span></h2>
+        <p>Whether you're a parent, student, or school administrator, reach out and we'll guide you to the right program. Walk in to our Kochi or Kozhikode centre, or connect with us online.</p>
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div class="contact-text">
+              <strong>Kochi Centre</strong>
+              <span>First Floor, Triveni Court, KP Vallon Rd, Kadavanthra, Kochi – 682020</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div class="contact-text">
+              <strong>Kozhikode Centre</strong>
+              <span>OVR Building, 1st Floor, Near Christian College, Vellayil, Kozhikode – 673011</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div class="contact-text">
+              <strong>Phone / WhatsApp</strong>
+              <span>+91 97460 38383</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">🌐</div>
+            <div class="contact-text">
+              <strong>Website</strong>
+              <span>www.evolveroboticsindia.com</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form" role="form" aria-label="Course Enquiry Form">
+        <div class="form-title">COURSE ENQUIRY</div>
+        <div class="form-group">
+          <label for="name">YOUR NAME</label>
+          <input type="text" id="name" placeholder="Enter your full name" autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label for="phone">PHONE / WHATSAPP</label>
+          <input type="tel" id="phone" placeholder="+91 XXXXXXXXXX" autocomplete="tel">
+        </div>
+        <div class="form-group">
+          <label for="email">EMAIL ADDRESS</label>
+          <input type="email" id="email" placeholder="your@email.com" autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="course">INTERESTED COURSE</label>
+          <select id="course">
+            <option value="">Select a course…</option>
+            <option>Robotics Engineering Program</option>
+            <option>Python, ML & AI Mastery Camp</option>
+            <option>Embedded Systems & Arduino</option>
+            <option>Drone Technology & Engineering</option>
+            <option>Data Science & Analytics</option>
+            <option>AR/VR Development (Infinity Lab)</option>
+            <option>EIRO 2026 Competition Preparation</option>
+            <option>School Robotics Workshop</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">MESSAGE (OPTIONAL)</label>
+          <textarea id="message" placeholder="Tell us about your goals or any questions…"></textarea>
+        </div>
+        <button class="form-submit" onclick="handleSubmit()">SEND ENQUIRY →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer id="careers">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#home" class="nav-logo" style="margin-bottom:12px;display:inline-flex">
+          <div class="logo-icon">ER</div>
+          <div>
+            <div class="logo-text">EVOLVE ROBOTICS</div>
+            <div class="logo-sub">LLP</div>
+          </div>
+        </a>
+        <p>Kerala's #1 Robotics & AI education company. Empowering 10,000+ students from age 7 to graduates across Kochi, Kozhikode and online.</p>
+        <div class="social-row">
+          <a href="https://instagram.com/evolve_robotics_" class="social-btn" aria-label="Instagram" target="_blank" rel="noopener">📸</a>
+          <a href="https://in.linkedin.com/company/evolve-robotics" class="social-btn" aria-label="LinkedIn" target="_blank" rel="noopener">💼</a>
+          <a href="https://wa.me/919746038383" class="social-btn" aria-label="WhatsApp" target="_blank" rel="noopener">💬</a>
+          <a href="https://youtube.com" class="social-btn" aria-label="YouTube" target="_blank" rel="noopener">▶️</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>QUICK LINKS</h5>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#courses">Courses</a></li>
+          <li><a href="#eiro2026">EIRO 2026</a></li>
+          <li><a href="#infinity-lab">Infinity Lab</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>PROGRAMS</h5>
+        <ul>
+          <li><a href="#courses">Robotics</a></li>
+          <li><a href="#courses">Python & AI</a></li>
+          <li><a href="#courses">Embedded Systems</a></li>
+          <li><a href="#courses">Drone Engineering</a></li>
+          <li><a href="#courses">Data Science</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>CAREERS</h5>
+        <ul>
+          <li><a href="#contact">Internships</a></li>
+          <li><a href="#contact">Trainer Roles</a></li>
+          <li><a href="#contact">Sales & Marketing</a></li>
+          <li><a href="#contact">Final Year Projects</a></li>
+          <li><a href="#contact">Partner With Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Evolve Robotics LLP · Kochi & Kozhikode, Kerala, India · All Rights Reserved</p>
+      <p style="color:var(--text-muted);font-size:11px">Robotics · AI · Python · Drones · Embedded Systems · STEM · EIRO 2026</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Countdown to EIRO 2026 registration close (set to Sep 30 2026)
+  function updateCountdown() {
+    const target = new Date('2026-09-30T23:59:59').getTime();
+    const now = new Date().getTime();
+    const diff = target - now;
+    if (diff <= 0) { return; }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cd-days').textContent = String(d).padStart(2,'0');
+    document.getElementById('cd-hrs').textContent = String(h).padStart(2,'0');
+    document.getElementById('cd-min').textContent = String(m).padStart(2,'0');
+    document.getElementById('cd-sec').textContent = String(s).padStart(2,'0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // Smooth nav highlight
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    const pos = window.scrollY + 80;
+    document.querySelectorAll('section[id], div[id]').forEach(sec => {
+      if (pos >= sec.offsetTop && pos < sec.offsetTop + sec.offsetHeight) {
+        navLinks.forEach(a => {
+          a.style.color = a.getAttribute('href') === '#' + sec.id ? 'var(--neon-cyan)' : '';
+        });
+      }
+    });
+    // Shrink nav on scroll
+    document.querySelector('nav').style.height = window.scrollY > 80 ? '56px' : '70px';
+  });
+
+  // Form submit
+  function handleSubmit() {
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    if (!name || !phone) { alert('Please fill in your name and phone number.'); return; }
+    alert('Thank you, ' + name + '! We will contact you on ' + phone + ' within 24 hours. 🚀');
+  }
+
+  // Intersection observer for card animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.feature-card, .course-card, .instructor-card, .placement-stat, .testimonial-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease, border-color 0.4s, box-shadow 0.4s';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
